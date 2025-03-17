@@ -14,6 +14,10 @@ def login():
     state = secrets.token_urlsafe(16)
     session["oauth_state"] = state
     app.logger.debug(f"session: {session.__dict__}")
+    try:
+        app.logger.debug(f"session['oauth_state']={session['oauth_state']}")
+    except:
+        app.logger.debug("Key 'oauth_state' not present in session")
     return get_oauth_instance(app).oidc.authorize_redirect(config.OIDC_REDIRECT_URI, state=state)
 
 
@@ -34,7 +38,11 @@ def callback():
     app.logger.debug("Recieved callback request")
     app.logger.debug(f"session: {session.__dict__}")
     app.logger.debug(f"state: {utils.get_request_param('state')}")
-
+    try:
+        app.logger.debug(f"session['oauth_state']={session['oauth_state']}")
+    except:
+        app.logger.debug("Key 'oauth_state' not present in session")
+        
     if "oauth_state" not in session or utils.get_request_param("state") != session["oauth_state"]:
         return "Invalid state parameter", 401
 
