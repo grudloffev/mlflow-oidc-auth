@@ -19,10 +19,10 @@ def logout():
     session.clear()
     if config.AUTOMATIC_LOGIN_REDIRECT:
         return render_template(
-                "auth.html",
-                username=None,
-                provide_display_name=config.OIDC_PROVIDER_DISPLAY_NAME,
-    )
+            "auth.html",
+            username=None,
+            provide_display_name=config.OIDC_PROVIDER_DISPLAY_NAME,
+        )
     return redirect("/")
 
 
@@ -30,7 +30,7 @@ def callback():
     """Validate the state to protect against CSRF"""
 
     app.logger.debug("Recieved callback request")
-    app.logger.debug(f"session: {session}")
+    app.logger.debug(f"session: {session.__dict__()}")
     app.logger.debug(f"state: {utils.get_request_param('state')}")
 
     if "oauth_state" not in session or utils.get_request_param("state") != session["oauth_state"]:
