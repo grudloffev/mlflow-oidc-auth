@@ -30,7 +30,7 @@ def callback():
     """Validate the state to protect against CSRF"""
 
     app.logger.debug("Recieved callback request")
-    app.logger.debug(f"session: {session.__dict__()}")
+    app.logger.debug(f"session: {session.__dict__}")
     app.logger.debug(f"state: {utils.get_request_param('state')}")
 
     if "oauth_state" not in session or utils.get_request_param("state") != session["oauth_state"]:
