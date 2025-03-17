@@ -10,8 +10,10 @@ from mlflow_oidc_auth.user import create_user, populate_groups, update_user
 
 
 def login():
+    app.logger.debug("Recieved login request")
     state = secrets.token_urlsafe(16)
     session["oauth_state"] = state
+    app.logger.debug(f"session: {session.__dict__}")
     return get_oauth_instance(app).oidc.authorize_redirect(config.OIDC_REDIRECT_URI, state=state)
 
 
