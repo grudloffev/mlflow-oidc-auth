@@ -31,7 +31,7 @@ def callback():
 
     app.logger.debug("Recieved callback request")
     app.logger.debug(f"session: {session}")
-    app.logger.debug(f"state: {utils.get_request_param("state")}")
+    app.logger.debug(f"state: {utils.get_request_param('state')}")
 
     if "oauth_state" not in session or utils.get_request_param("state") != session["oauth_state"]:
         return "Invalid state parameter", 401
